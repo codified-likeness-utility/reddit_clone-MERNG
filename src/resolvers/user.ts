@@ -8,8 +8,7 @@ import {
   Field,
   Ctx,
   ObjectType,
-  Query,
-  emitSchemaDefinitionFile,
+  Query
 } from "type-graphql";
 import argon2 from "argon2";
 
@@ -43,6 +42,7 @@ export class UserResolver {
 
   @Query(() => User, { nullable: true })
   async me(@Ctx() { req, em }: MyContext) {
+    console.log("session:", req.session)
     if (!req.session.userId) {
       return null;
 	}
@@ -126,7 +126,7 @@ export class UserResolver {
         ],
       };
 	}
-	// Store userId in session vy setting cookie for User
+	// Store userId in session by setting cookie for User
 	// This will keep them logged in
     req.session.userId = user._id;
     return { user };
